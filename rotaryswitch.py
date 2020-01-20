@@ -26,11 +26,20 @@ GPIO.setup(7, GPIO.OUT)
 #on/off
 GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #selector
-GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
+GPIO.setup(13, GPIO.IN)
+GPIO.setup(15, GPIO.IN)
 
 sound = 0
+
+def handle(pin):
+    #assign sound to the active pin
+    sound = pin
+    print(pin)
+
+	
+GPIO.add_event_detect(C, GPIO.BOTH, callback=handle, bouncetime=3)	
+GPIO.add_event_detect(G, GPIO.BOTH, callback=handle, bouncetime=3)
+
 
 try:
     while True:
@@ -40,16 +49,4 @@ try:
 finally:     
     GPIO.cleanup()
 	
-def handle(pin)
-	#assign sound to the active pin
-	sound = pin
-	print(sound)
 
-	
-GPIO.add_event_detect(C, GPIO.RISING, handle)	
-GPIO.add_event_detect(G, GPIO.RISING, handle)
-
-
-while True:
-
-	
