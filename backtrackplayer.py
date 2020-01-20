@@ -25,6 +25,10 @@ def play_sound(name):
     #sound = mixer.Sound("track" + ".wav")
     played = 1
 
+def 
+
+GPIO.add_event_detect(
+
 try:
     while True:
         GPIO.output(7, True)
