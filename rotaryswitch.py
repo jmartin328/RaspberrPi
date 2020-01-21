@@ -1,11 +1,13 @@
 import RPi.GPIO as GPIO
+import time
 from pygame import mixer
 
+GPIO.setmode(GPIO.BOARD)
+
+#Initialize pygame mixer
 mixer.init()
 
-sound = mixer.Sound('Soulful Atmospheric Groove Guitar Backing Track Jam in E.wav')
-
-GPIO.setmode(GPIO.BOARD)
+mixer.music.load('/home/pi/Desktop/Tracks/Emaj.wav')
 
 # assign pins to keys
 C = 13
@@ -29,11 +31,12 @@ GPIO.setup(11, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(13, GPIO.IN)
 GPIO.setup(15, GPIO.IN)
 
-sound = 0
-
 def handle(pin):
     #assign sound to the active pin
-    sound = pin
+    if (pin == C):
+        mixer.music.load('/home/pi/Desktop/Tracks/Emaj.wav')
+    elif (pin == G):
+        mixer.music.load('/home/pi/Desktop/Tracks/Emin.wav')
     print(pin)
 
 	
@@ -44,8 +47,7 @@ GPIO.add_event_detect(G, GPIO.BOTH, callback=handle, bouncetime=3)
 try:
     while True:
         GPIO.output(7, True)
-        # if(GPIO.input(11)):
-            # sound.play()
+        mixer.music.play(-1)
 finally:     
     GPIO.cleanup()
 	

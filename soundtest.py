@@ -6,7 +6,7 @@ from pygame import mixer
 mixer.init()
 
 #Load the sounds
-sound = mixer.Sound('applause-1.wav')
+sound = mixer.Sound('/home/pi/Desktop/Tracks/Emaj.wav')
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.OUT)
@@ -14,7 +14,7 @@ GPIO.setup(7, GPIO.OUT)
 try:
     while True:
         GPIO.output(7, True)
-        #sound.play()
+        sound.play()
 
 finally:
     GPIO.cleanup()
