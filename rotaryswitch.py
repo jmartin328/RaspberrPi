@@ -7,11 +7,10 @@ GPIO.setmode(GPIO.BOARD)
 #Initialize pygame mixer
 mixer.init()
 
-mixer.music.unload()
-mixer.music.load('/home/pi/Desktop/Tracks/Emaj.wav')
 
-current = "Emaj"
-new = "null"
+
+current = 13
+new = 0
 
 # assign pins to keys
 C = 13
@@ -48,32 +47,38 @@ GPIO.setup(15, GPIO.IN)
 # GPIO.setup(37, GPIO.IN)
 # GPIO.setup(, GPIO.IN)
 
+if(GPIO.input(13)):
+    print("start 13")
+    current = 13
+    mixer.music.load('/home/pi/Desktop/Tracks/Emaj.wav')
+elif(GPIO.input(15)):
+    print("start 15")
+    current = 15
+    mixer.music.load('/home/pi/Desktop/Tracks/Emin.wav')
+
 def handle(pin):
-	#update currently playing
-	#unload, and load new music
-    if (pin == Emaj and current != pin):
-		new = pin
-		mixer.music.unload()
+    global new, current
+    
+    #update currently playing
+    #unload, and load new music
+    if (pin == 13 and current != pin):
+        new = pin
         mixer.music.load('/home/pi/Desktop/Tracks/Emaj.wav')
-    elif (pin == Emin and current != pin):
-		new = pin
-		mixer.music.unload()
+    elif (pin == 15 and current != pin):
+	new = pin
         mixer.music.load('/home/pi/Desktop/Tracks/Emin.wav')
-	#print the pin that is being handled
-    print(pin)
+    #print the pin that is being handled
+    print("New is: " + str(new))
+    print("Current is: " + str(current))
 
 	
-GPIO.add_event_detect("Emaj", GPIO.RISING, callback=handle, bouncetime=3000)	
-GPIO.add_event_detect("Emin", GPIO.RISING, callback=handle, bouncetime=3000)
+GPIO.add_event_detect(13, GPIO.RISING, callback=handle, bouncetime=3000)	
+GPIO.add_event_detect(15, GPIO.RISING, callback=handle, bouncetime=3000)
 
-
-try:
-    while True:
-		#if there is a different pin active, start player
-		if current != new:
-			current = new
-			mixer.music.play()
-finally:     
-    GPIO.cleanup()
-	
+while True:
+    #if there is a different pin active, start player
+    if current != new:
+        print("hi")
+        current = new
+        mixer.music.play()
 
